@@ -55,7 +55,7 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        $todo = Todo::find($id);
+        $category = Category::find($id);
         return view('categories.show',['category' => $category]);
     }
 
@@ -68,7 +68,7 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         //
-    }
+    }  
 
     /**
      * Update the specified resource in storage.
@@ -77,9 +77,13 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $category)
     {
-        //
+        $category = Category::find($category);
+        $category ->name = $request->name;
+        $category ->color = $request->color;
+        $category ->save();
+        return redirect()->route('categories.show')->with('success', 'Categoria actualizada');
     }
 
     /**
@@ -88,8 +92,10 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($category)
     {
-        //
+        $category = Todo::find($id);
+        $category -> delete();
+        return redirect()->route('categories.show')->with('success','Categoria ha sido eliminada!');
     }
 }
